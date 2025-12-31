@@ -1,0 +1,459 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Suburbanization\Data\Modified\estimation\table4e\variables\Econ 413W (IGNORE)\Final Paper\buera.log
+  log type:  text
+ opened on:  23 Sep 2024, 22:10:04
+
+. 
+. 
+. ***************************************************
+. ******** Build Basic Variables ********************
+. 
+. clear
+
+. *use ../../data/msa-final.dta
+. use ../../table4e_vars.dta, clear
+
+. 
+. gen xpop2 = cpop2/pop
+
+. gen xpop = cpop/pop
+
+. * gen lcpop2 = log(cpop2) // red-gen
+. gen lcpop = log(cpop)
+
+. * gen lpop = log(pop) // red-gen
+. * gen rcarea = sqrt(carea/_pi) // red-gen
+. gen rarea = sqrt(area/_pi)
+
+. gen mray = max(ray,racc)
+
+. gen inter = linch*raccld
+
+. 
+. 
+. 
+. **keep only end years and drop msas
+. *that enter sample after 1950
+. * keep if year==50 | year==90
+. 
+. sort msa year
+
+. by msa: gen dxpop2 = xpop2[_n+1]-xpop2
+(83 missing values generated)
+
+. by msa: gen dlxpop2 = log(xpop2[_n+1])-log(xpop2)
+(83 missing values generated)
+
+. by msa: gen dxpop = xpop[_n+1]-xpop
+(83 missing values generated)
+
+. * by msa: gen dlcpop2 = lcpop2[_n+1]-lcpop2 // red-gen
+. by msa: gen dlcpop = lcpop[_n+1]-lcpop
+(83 missing values generated)
+
+. * by msa: gen dlpop = lpop[_n+1]-lpop // red-gen
+. * by msa: gen draccld = raccld[_n+1]-raccld // red-gen
+. by msa: gen dracclds = raccld[_n+1]^2-raccld^2
+(83 missing values generated)
+
+. by msa: gen dracc = racc[_n+1]-racc
+(83 missing values generated)
+
+. * by msa: gen Dlincomeh = linch[_n+1]-linch // red-gen
+. * by msa: gen Dginih = ginih[_n+1]-ginih // red-gen
+. by msa: gen Dsdlinch = sdlinch[_n+1]-sdlinch
+(83 missing values generated)
+
+. by msa: gen dlincome = lincome[_n+1]-lincome
+(83 missing values generated)
+
+. by msa: gen dmray = mray[_n+1]-mray
+(83 missing values generated)
+
+. by msa: gen trarea = carea[_n+1]/carea 
+(83 missing values generated)
+
+. by msa: gen drcarea = rcarea[_n+1]-rcarea 
+(83 missing values generated)
+
+. by msa: gen dinter = inter[_n+1]-inter
+(83 missing values generated)
+
+. gen planint = rays_planc*Dlincomeh
+
+. 
+. ****** Create census divisions
+. gen cdiv = -9
+
+. replace cdiv = 6 if stfip==1
+(3 real changes made)
+
+. replace cdiv = 9 if stfip==2
+(0 real changes made)
+
+. replace cdiv = 8 if stfip==4
+(1 real change made)
+
+. replace cdiv = 7 if stfip==5
+(1 real change made)
+
+. replace cdiv = 9 if stfip==6
+(4 real changes made)
+
+. replace cdiv = 8 if stfip==8
+(1 real change made)
+
+. replace cdiv = 1 if stfip==9
+(2 real changes made)
+
+. replace cdiv = 5 if stfip==10
+(1 real change made)
+
+. replace cdiv = 5 if stfip==11
+(1 real change made)
+
+. replace cdiv = 5 if stfip==12
+(2 real changes made)
+
+. replace cdiv = 5 if stfip==13
+(2 real changes made)
+
+. replace cdiv = 9 if stfip==15
+(0 real changes made)
+
+. replace cdiv = 8 if stfip==16
+(0 real changes made)
+
+. replace cdiv = 3 if stfip==17
+(2 real changes made)
+
+. replace cdiv = 3 if stfip==18
+(3 real changes made)
+
+. replace cdiv = 4 if stfip==19
+(1 real change made)
+
+. replace cdiv = 4 if stfip==20
+(1 real change made)
+
+. replace cdiv = 6 if stfip==21
+(1 real change made)
+
+. replace cdiv = 7 if stfip==22
+(3 real changes made)
+
+. replace cdiv = 1 if stfip==23
+(0 real changes made)
+
+. replace cdiv = 5 if stfip==24
+(1 real change made)
+
+. replace cdiv = 1 if stfip==25
+(2 real changes made)
+
+. replace cdiv = 3 if stfip==26
+(3 real changes made)
+
+. replace cdiv = 4 if stfip==27
+(2 real changes made)
+
+. replace cdiv = 6 if stfip==28
+(0 real changes made)
+
+. replace cdiv = 4 if stfip==29
+(2 real changes made)
+
+. replace cdiv = 8 if stfip==30
+(0 real changes made)
+
+. replace cdiv = 4 if stfip==31
+(1 real change made)
+
+. replace cdiv = 8 if stfip==32
+(0 real changes made)
+
+. replace cdiv = 1 if stfip==33
+(0 real changes made)
+
+. replace cdiv = 2 if stfip==34
+(1 real change made)
+
+. replace cdiv = 8 if stfip==35
+(0 real changes made)
+
+. replace cdiv = 2 if stfip==36
+(6 real changes made)
+
+. replace cdiv = 5 if stfip==37
+(1 real change made)
+
+. replace cdiv = 4 if stfip==38
+(0 real changes made)
+
+. replace cdiv = 3 if stfip==39
+(8 real changes made)
+
+. replace cdiv = 7 if stfip==40
+(2 real changes made)
+
+. replace cdiv = 9 if stfip==41
+(1 real change made)
+
+. replace cdiv = 2 if stfip==42
+(6 real changes made)
+
+. replace cdiv = 1 if stfip==44
+(1 real change made)
+
+. replace cdiv = 5 if stfip==45
+(0 real changes made)
+
+. replace cdiv = 4 if stfip==46
+(0 real changes made)
+
+. replace cdiv = 6 if stfip==47
+(3 real changes made)
+
+. replace cdiv = 7 if stfip==48
+(7 real changes made)
+
+. replace cdiv = 8 if stfip==49
+(1 real change made)
+
+. replace cdiv = 1 if stfip==50
+(0 real changes made)
+
+. replace cdiv = 5 if stfip==51
+(2 real changes made)
+
+. replace cdiv = 9 if stfip==53
+(3 real changes made)
+
+. replace cdiv = 5 if stfip==54
+(0 real changes made)
+
+. replace cdiv = 3 if stfip==55
+(1 real change made)
+
+. replace cdiv = 8 if stfip==56
+(0 real changes made)
+
+. 
+. ** Since 50 is the only year in the dataset, these commands work
+. gen POP50 = pop if year_1900s==50
+
+. egen pop50 = max(POP50), by(msa)
+
+. gen POP90 = pop if year_1900s==90
+(83 missing values generated)
+
+. egen pop90 = max(POP90), by(msa)
+(83 missing values generated)
+
+. gen CPOP50 = cpop if year_1900s==50
+
+. egen cpop50 = max(CPOP50), by(msa)
+
+. gen lpop50 = log(pop50)
+
+. 
+. 
+. ******************
+. ***** Labels *****
+. ******************
+. label variable dlcpop2 "Log Change CC Pop."
+
+. label variable cc_man_50 "CC Mfg. % Emp., 1950"
+
+. label variable rcarea "CC Radius"
+
+. label variable dlpop "Log Change MSA Pop."
+
+. label variable draccld_nw_50 "Ray*Non-White, 1950"
+
+. label variable draccld "Change in # of Rays"
+
+. label variable nw_50 "Non-White Pop. %, 1950"
+
+. 
+. *******************************************************
+. **** Summary Statistics For Primary Sample (3) ********
+. ************ Appendix Table 1 *************************
+. 
+. sum xpop2 xpop lcpop2 lcpop lpop raccld racc rays_planc mray rcarea rarea linch ginih lincome if year==50 & pop50>.1 & cpop50>.05
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       xpop2 |         83    .4905969    .1436422   .1565936   .7702294
+        xpop |         83    .4905969    .1436422   .1565936   .7702294
+      lcpop2 |         83   -1.324815    .8966762  -2.287391   2.065844
+       lcpop |         83   -1.324815    .8966762  -2.287391   2.065844
+        lpop |         83   -.5601118    .8776521  -1.828751   2.587118
+-------------+---------------------------------------------------------
+      raccld |         83    .1204819    .4247694          0          2
+        racc |         83    .1204819    .4247694          0          2
+  rays_planc |         83           3    1.287842          0          6
+        mray |         83    .1566265    .5291947          0          3
+      rcarea |         83    3.807868    1.779908    1.51388   11.98023
+-------------+---------------------------------------------------------
+       rarea |         83    28.37489     8.80839   8.481629   54.12693
+       linch |         83     9.63575    .0983126   9.326128    9.78061
+       ginih |         83    .3200081    .0235058   .2844759   .3890241
+     lincome |         83    10.02585    .1491071   9.632992   10.27677
+
+. sum xpop2 xpop lcpop2 lcpop lpop raccld racc rays_planc mray rcarea rarea linch ginih lincome if year==90 & pop50>.1 & cpop50>.05
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       xpop2 |          0
+        xpop |          0
+      lcpop2 |          0
+       lcpop |          0
+        lpop |          0
+-------------+---------------------------------------------------------
+      raccld |          0
+        racc |          0
+  rays_planc |          0
+        mray |          0
+      rcarea |          0
+-------------+---------------------------------------------------------
+       rarea |          0
+       linch |          0
+       ginih |          0
+     lincome |          0
+
+. sum dxpop2 dxpop dlcpop2 dlcpop dlpop draccld dracc rays_planc dmray drcarea rarea Dlincomeh Dginih dlincome if year==50 & pop50>.1 & cpop50>.05
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      dxpop2 |          0
+       dxpop |          0
+     dlcpop2 |         83    .0017984    .1108628  -.3468087   .3581837
+      dlcpop |          0
+       dlpop |         83    .2373845    .1371813  -.0862314    .693102
+-------------+---------------------------------------------------------
+     draccld |         83    1.373494    1.462631          0          6
+       dracc |          0
+  rays_planc |         83           3    1.287842          0          6
+       dmray |          0
+     drcarea |          0
+-------------+---------------------------------------------------------
+       rarea |         83    28.37489     8.80839   8.481629   54.12693
+   Dlincomeh |         83     .306367    .0237928   .2604145   .3927604
+      Dginih |         83    .0239169    .0057493   .0045477   .0332697
+    dlincome |          0
+
+. 
+. ** Drop all of the missing values from the differences
+. keep if year==50
+(0 observations deleted)
+
+. 
+. ******************************************************
+. 
+. *** Buera Regressions
+. reg dlcpop2 draccld nw_50 draccld_nw_50, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(3, 35)          =       4.54
+                                                Prob > F          =     0.0086
+                                                R-squared         =     0.0938
+                                                Root MSE          =     .10752
+
+                                  (Std. err. adjusted for 36 clusters in stfip)
+-------------------------------------------------------------------------------
+              |               Robust
+      dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+      draccld |   .0219653   .0149573     1.47   0.151    -.0083996    .0523302
+        nw_50 |   .0038241   .0010776     3.55   0.001     .0016365    .0060118
+draccld_nw_50 |  -.0017019   .0006694    -2.54   0.016     -.003061   -.0003429
+        _cons |   -.050089   .0209973    -2.39   0.023    -.0927157   -.0074623
+-------------------------------------------------------------------------------
+
+. outreg2 using outputBuera.tex, tex(frag) bdec(3) ctitle("OLS") se replace word label
+outputBuera.tex
+outputBuera.rtf
+dir : seeout
+
+. ivregress 2sls dlcpop2 (draccld draccld_nw_50=rays_planc rays_planc_nw_50), first cluster(stfip)
+
+First-stage regressions
+-----------------------
+
+                                                      Number of obs   =     83
+                                                      No. of clusters =     36
+                                                      F(2, 80)        =  16.84
+                                                      Prob > F        = 0.0000
+                                                      R-squared       = 0.2781
+                                                      Adj R-squared   = 0.2601
+                                                      Root MSE        = 1.2582
+
+----------------------------------------------------------------------------------
+                 |               Robust
+         draccld | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+      rays_planc |   .6762396   .1438924     4.70   0.000     .3898846    .9625946
+rays_planc_nw_50 |  -.0050603   .0043286    -1.17   0.246    -.0136744    .0035539
+           _cons |   -.443852   .2950782    -1.50   0.136    -1.031076    .1433723
+----------------------------------------------------------------------------------
+
+                                                     Number of obs   =      83
+                                                     No. of clusters =      36
+                                                     F(2, 80)        =   22.70
+                                                     Prob > F        =  0.0000
+                                                     R-squared       =  0.5245
+                                                     Adj R-squared   =  0.5126
+                                                     Root MSE        = 17.7187
+
+----------------------------------------------------------------------------------
+                 |               Robust
+   draccld_nw_50 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+      rays_planc |   6.002167   2.086154     2.88   0.005     1.850588    10.15375
+rays_planc_nw_50 |   .2925359   .0682411     4.29   0.000     .1567317      .42834
+           _cons |  -13.71013   5.800996    -2.36   0.021    -25.25448   -2.165776
+----------------------------------------------------------------------------------
+
+
+Instrumental-variables 2SLS regression            Number of obs   =         83
+                                                  Wald chi2(2)    =       2.34
+                                                  Prob > chi2     =     0.3110
+                                                  R-squared       =          .
+                                                  Root MSE        =     .11548
+
+                                  (Std. err. adjusted for 36 clusters in stfip)
+-------------------------------------------------------------------------------
+              |               Robust
+      dlcpop2 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+      draccld |  -.0303684   .0233055    -1.30   0.193    -.0760464    .0153096
+draccld_nw_50 |   .0010366   .0007338     1.41   0.158    -.0004017     .002475
+        _cons |   .0263883   .0324792     0.81   0.417    -.0372697    .0900463
+-------------------------------------------------------------------------------
+Endogenous: draccld draccld_nw_50
+Exogenous:  rays_planc rays_planc_nw_50
+
+. outreg2 using outputBuera.tex, tex(frag) bdec(3) ctitle("IV") se append word label
+outputBuera.tex
+outputBuera.rtf
+dir : seeout
+
+. 
+. *** Full summary statistics for BS variables
+. * test
+. *** Add the interacted variables separately
+. 
+. *** Run full model with all observations
+. 
+. *** Restrict all variables to selcted observations
+. 
+. *** Run Buera specifications
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Suburbanization\Data\Modified\estimation\table4e\variables\Econ 413W (IGNORE)\Final Paper\buera.log
+  log type:  text
+ closed on:  23 Sep 2024, 22:10:04
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

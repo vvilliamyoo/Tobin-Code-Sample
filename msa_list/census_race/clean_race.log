@@ -1,0 +1,297 @@
+----------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - W
+> ashington University in St. Louis\Rese
+> arch\Suburbanization\Literature Review
+> \Baum-Snow - Did Highways Cause Suburb
+> anization\Data\Modified\estimation\msa
+> _list\census_race\clean_race.log
+  log type:  text
+ opened on:  28 Aug 2023, 17:10:17
+
+. 
+. 
+. ****************
+. ***** 1950 *****
+. ****************
+. import delimited "1950/edited_race_195
+> 0.csv", varnames(1)
+(encoding automatically selected: UTF-8)
+(7 vars, 240 obs)
+
+. 
+. * Clean MSA names
+. replace msa_name = subinstr(msa_name, 
+> " (remainder)", "", .)
+(4 real changes made)
+
+. replace msa_name = "Nashville, TN" if 
+> msa_name == "Nashville-Davidson, TN"
+(1 real change made)
+
+. drop if missing(msa_total)
+(89 observations deleted)
+
+. 
+. 
+. * Generate variables for nonwhite popu
+> lation percents
+. gen pct_msa_nw_1950 = msa_nonwhite/msa
+> _total*100
+
+. gen pct_cc_nw_1950 = cc_nonwhite/cc_to
+> tal*100
+
+. keep msa_name pct_msa_nw_1950 pct_cc_n
+> w_1950
+
+. 
+. 
+. * Label variables
+. label variable msa_name "MSA/CC name"
+
+. label variable pct_msa_nw_1950 "1950 N
+> on-White population of MSA (%)"
+
+. label variable pct_cc_nw_1950 "1950 No
+> n-White population of CC (%)"
+
+. 
+. * Finalize dataset
+. sort msa_name
+
+. save "1950/clean_race_1950.dta", repla
+> ce
+file 1950/clean_race_1950.dta saved
+
+. 
+. 
+. ****************
+. ***** 1990 *****
+. ****************
+. clear
+
+. import delimited "../census_race/1990/
+> final_race_1990.csv"
+(encoding automatically selected: ISO-88
+> 59-2)
+(8 vars, 3,046 obs)
+
+. 
+. * Manage variable names
+. drop if _n == 1
+(1 observation deleted)
+
+. keep v1-v3
+
+. rename v1 msa_name
+
+. rename v2 total_pop
+
+. rename v3 white
+
+. 
+. * Remove MSA names containing "Con."
+. drop if regexm(msa_name, "Con.$")
+(39 observations deleted)
+
+. 
+. * Format MSA names in preparation for 
+> dataset merge
+. replace msa_name = trim(regexr(msa_nam
+> e, "-+$", "")) // Remove trailing hyph
+> ens
+(3,006 real changes made)
+
+. replace msa_name = "Inside Central Cit
+> y" if msa_name == "Inside central city
+> " 
+(341 real changes made)
+
+. replace msa_name = "Outside Central Ci
+> ty" if msa_name == "Outside central ci
+> ty"
+(341 real changes made)
+
+. replace msa_name = subinstr(msa_name, 
+> " (pt.)", "", .)
+(73 real changes made)
+
+. replace msa_name = subinstr(msa_name, 
+> " city", "", .)
+(612 real changes made)
+
+. replace msa_name = subinstr(msa_name, 
+> " town", "", .)
+(518 real changes made)
+
+. 
+. * Replace dashes with 0
+. foreach var of varlist _all {
+  2.     replace `var' = "0" if `var' ==
+>  "-"
+  3. }
+(0 real changes made)
+(5 real changes made)
+(5 real changes made)
+
+. 
+. * Format relevant numerical variables 
+> correctly
+. destring total_pop white, force replac
+> e
+total_pop: contains nonnumeric character
+> s; replaced as long
+(1 missing value generated)
+white: contains nonnumeric characters; r
+> eplaced as long
+(1 missing value generated)
+
+. 
+. * Generate Non-White variable
+. gen nonwhite = total_pop-white
+(1 missing value generated)
+
+. 
+. * Create MSA groups (used for troubles
+> hooting)
+. gen group_id = substr(trim(msa_name), 
+> -3, 3) == "MSA"
+
+. replace group_id = sum(group_id)
+(3,005 real changes made)
+
+. 
+. * Flag MSAs (makes code more readable)
+. gen flag_msa = regexm(msa_name, "MSA")
+
+. 
+. * Label variables
+. label variable msa_name "MSA/CC name"
+
+. label variable total_pop "Total popula
+> tion of MSA/CC"
+
+. label variable white "Population of Wh
+> ites of MSA/CC"
+
+. label variable nonwhite "Population of
+>  Non-Whites of MSA/CC"
+
+. label variable group_id "Groups MSAs (
+> for troubleshooting)"
+
+. label variable flag_msa "Flags names t
+> hat are MSAs (for code readability)"
+
+. save "1990/clean_race_1990.dta", repla
+> ce
+file 1990/clean_race_1990.dta saved
+
+. 
+. 
+. **************************
+. ***** Merged Dataset *****
+. **************************
+. use "1990/clean_race_1990.dta", clear
+
+. 
+. * Merge
+. merge m:1 msa_name using "1950/clean_r
+> ace_1950.dta"
+
+    Result                      Number o
+> f obs
+    ------------------------------------
+> -----
+    Not matched                         
+> 2,859
+        from master                     
+> 2,854  (_merge==1)
+        from using                      
+>     5  (_merge==2)
+
+    Matched                             
+>   152  (_merge==3)
+    ------------------------------------
+> -----
+
+. 
+. * Sort for troubleshooting
+. gsort group_id -flag_msa
+
+. 
+. * Generate final variables
+. gen pct_msa_nw_1990 = nonwhite/total_p
+> op*100 if flag_msa == 1
+(2,671 missing values generated)
+
+. gen pct_cc_nw_1990 = nonwhite/total_po
+> p*100 if _merge == 3
+(2,860 missing values generated)
+
+. drop if missing(pct_msa_nw_1990) & mis
+> sing(pct_cc_nw_1990) // Remove places 
+> without MSA-CC pair
+(2,520 observations deleted)
+
+. 
+. * Manage gaps in data caused by format
+> ting
+. gen next_msa_name_temp = msa_name[_n+1
+> ]
+(1 missing value generated)
+
+. drop if regexm(msa_name, "MSA$") & reg
+> exm(next_msa_name_temp, "MSA$")
+(193 observations deleted)
+
+. replace pct_msa_nw_1990 = pct_msa_nw_1
+> 990[_n-1] if missing(pct_msa_nw_1990)
+(151 real changes made)
+
+. drop if missing(pct_msa_nw_1950)
+(147 observations deleted)
+
+. 
+. * Label variables
+. label variable pct_msa_nw_1990 "1990 N
+> on-White population of MSA (%)"
+
+. label variable pct_cc_nw_1990 "1990 No
+> n-White population of CC (%)"
+
+. 
+. * Finalize
+. keep msa_name pct_msa_nw_1950 pct_cc_n
+> w_1950 pct_msa_nw_1990 pct_cc_nw_1990
+
+. compress msa_name // Format msa_name c
+> olumn width to the longest MSA name
+  variable msa_name was str94 now str18
+  (11,476 bytes saved)
+
+. sort msa_name
+
+. quietly by msa_name: gen dup = cond(_N
+> ==1,0,_n)
+
+. drop if dup>1
+(5 observations deleted)
+
+. drop dup
+
+. save "clean_race.dta", replace
+file clean_race.dta saved
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - W
+> ashington University in St. Louis\Rese
+> arch\Suburbanization\Literature Review
+> \Baum-Snow - Did Highways Cause Suburb
+> anization\Data\Modified\estimation\msa
+> _list\census_race\clean_race.log
+  log type:  text
+ closed on:  28 Aug 2023, 17:10:18
+----------------------------------------

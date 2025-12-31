@@ -1,0 +1,1277 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Suburbanization\Data\Modified\estimation\table4e\table4e.log
+  log type:  text
+ opened on:  17 May 2024, 09:19:04
+
+. 
+. 
+. ***************************************************
+. ******** Build Basic Variables ********************
+. 
+. clear
+
+. *use ../../data/msa-final.dta
+. use ../table4e/variables/table4e_vars.dta
+
+. 
+. gen xpop2 = cpop2/pop
+
+. gen xpop = cpop/pop
+
+. * gen lcpop2 = log(cpop2) // red-gen
+. gen lcpop = log(cpop)
+
+. * gen lpop = log(pop) // red-gen
+. * gen rcarea = sqrt(carea/_pi) // red-gen
+. gen rarea = sqrt(area/_pi)
+
+. gen mray = max(ray,racc)
+
+. gen inter = linch*raccld
+
+. 
+. 
+. 
+. **keep only end years and drop msas
+. *that enter sample after 1950
+. * keep if year==50 | year==90
+. 
+. sort msa year
+
+. by msa: gen dxpop2 = xpop2[_n+1]-xpop2
+(83 missing values generated)
+
+. by msa: gen dlxpop2 = log(xpop2[_n+1])-log(xpop2)
+(83 missing values generated)
+
+. by msa: gen dxpop = xpop[_n+1]-xpop
+(83 missing values generated)
+
+. * by msa: gen dlcpop2 = lcpop2[_n+1]-lcpop2 // red-gen
+. by msa: gen dlcpop = lcpop[_n+1]-lcpop
+(83 missing values generated)
+
+. * by msa: gen dlpop = lpop[_n+1]-lpop // red-gen
+. * by msa: gen draccld = raccld[_n+1]-raccld // red-gen
+. by msa: gen dracclds = raccld[_n+1]^2-raccld^2
+(83 missing values generated)
+
+. by msa: gen dracc = racc[_n+1]-racc
+(83 missing values generated)
+
+. * by msa: gen Dlincomeh = linch[_n+1]-linch // red-gen
+. * by msa: gen Dginih = ginih[_n+1]-ginih // red-gen
+. by msa: gen Dsdlinch = sdlinch[_n+1]-sdlinch
+(83 missing values generated)
+
+. by msa: gen dlincome = lincome[_n+1]-lincome
+(83 missing values generated)
+
+. by msa: gen dmray = mray[_n+1]-mray
+(83 missing values generated)
+
+. by msa: gen trarea = carea[_n+1]/carea 
+(83 missing values generated)
+
+. by msa: gen drcarea = rcarea[_n+1]-rcarea 
+(83 missing values generated)
+
+. by msa: gen dinter = inter[_n+1]-inter
+(83 missing values generated)
+
+. gen planint = rays_planc*Dlincomeh
+
+. 
+. ****** Create census divisions
+. gen cdiv = -9
+
+. replace cdiv = 6 if stfip==1
+(3 real changes made)
+
+. replace cdiv = 9 if stfip==2
+(0 real changes made)
+
+. replace cdiv = 8 if stfip==4
+(1 real change made)
+
+. replace cdiv = 7 if stfip==5
+(1 real change made)
+
+. replace cdiv = 9 if stfip==6
+(4 real changes made)
+
+. replace cdiv = 8 if stfip==8
+(1 real change made)
+
+. replace cdiv = 1 if stfip==9
+(2 real changes made)
+
+. replace cdiv = 5 if stfip==10
+(1 real change made)
+
+. replace cdiv = 5 if stfip==11
+(1 real change made)
+
+. replace cdiv = 5 if stfip==12
+(2 real changes made)
+
+. replace cdiv = 5 if stfip==13
+(2 real changes made)
+
+. replace cdiv = 9 if stfip==15
+(0 real changes made)
+
+. replace cdiv = 8 if stfip==16
+(0 real changes made)
+
+. replace cdiv = 3 if stfip==17
+(2 real changes made)
+
+. replace cdiv = 3 if stfip==18
+(3 real changes made)
+
+. replace cdiv = 4 if stfip==19
+(1 real change made)
+
+. replace cdiv = 4 if stfip==20
+(1 real change made)
+
+. replace cdiv = 6 if stfip==21
+(1 real change made)
+
+. replace cdiv = 7 if stfip==22
+(3 real changes made)
+
+. replace cdiv = 1 if stfip==23
+(0 real changes made)
+
+. replace cdiv = 5 if stfip==24
+(1 real change made)
+
+. replace cdiv = 1 if stfip==25
+(2 real changes made)
+
+. replace cdiv = 3 if stfip==26
+(3 real changes made)
+
+. replace cdiv = 4 if stfip==27
+(2 real changes made)
+
+. replace cdiv = 6 if stfip==28
+(0 real changes made)
+
+. replace cdiv = 4 if stfip==29
+(2 real changes made)
+
+. replace cdiv = 8 if stfip==30
+(0 real changes made)
+
+. replace cdiv = 4 if stfip==31
+(1 real change made)
+
+. replace cdiv = 8 if stfip==32
+(0 real changes made)
+
+. replace cdiv = 1 if stfip==33
+(0 real changes made)
+
+. replace cdiv = 2 if stfip==34
+(1 real change made)
+
+. replace cdiv = 8 if stfip==35
+(0 real changes made)
+
+. replace cdiv = 2 if stfip==36
+(6 real changes made)
+
+. replace cdiv = 5 if stfip==37
+(1 real change made)
+
+. replace cdiv = 4 if stfip==38
+(0 real changes made)
+
+. replace cdiv = 3 if stfip==39
+(8 real changes made)
+
+. replace cdiv = 7 if stfip==40
+(2 real changes made)
+
+. replace cdiv = 9 if stfip==41
+(1 real change made)
+
+. replace cdiv = 2 if stfip==42
+(6 real changes made)
+
+. replace cdiv = 1 if stfip==44
+(1 real change made)
+
+. replace cdiv = 5 if stfip==45
+(0 real changes made)
+
+. replace cdiv = 4 if stfip==46
+(0 real changes made)
+
+. replace cdiv = 6 if stfip==47
+(3 real changes made)
+
+. replace cdiv = 7 if stfip==48
+(7 real changes made)
+
+. replace cdiv = 8 if stfip==49
+(1 real change made)
+
+. replace cdiv = 1 if stfip==50
+(0 real changes made)
+
+. replace cdiv = 5 if stfip==51
+(2 real changes made)
+
+. replace cdiv = 9 if stfip==53
+(3 real changes made)
+
+. replace cdiv = 5 if stfip==54
+(0 real changes made)
+
+. replace cdiv = 3 if stfip==55
+(1 real change made)
+
+. replace cdiv = 8 if stfip==56
+(0 real changes made)
+
+. 
+. ** Since 50 is the only year in the dataset, these commands work
+. gen POP50 = pop if year_1900s==50
+
+. egen pop50 = max(POP50), by(msa)
+
+. gen POP90 = pop if year_1900s==90
+(83 missing values generated)
+
+. egen pop90 = max(POP90), by(msa)
+(83 missing values generated)
+
+. gen CPOP50 = cpop if year_1900s==50
+
+. egen cpop50 = max(CPOP50), by(msa)
+
+. gen lpop50 = log(pop50)
+
+. 
+. *******************************************************
+. **** Summary Statistics For Primary Sample (3) ********
+. ************ Appendix Table 1 *************************
+. 
+. sum xpop2 xpop lcpop2 lcpop lpop raccld racc rays_planc mray rcarea rarea linch ginih lincome if year==50 & pop50>.1 & cpop50>.05
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       xpop2 |         83    .4905969    .1436422   .1565936   .7702294
+        xpop |         83    .4905969    .1436422   .1565936   .7702294
+      lcpop2 |         83   -1.324815    .8966762  -2.287391   2.065844
+       lcpop |         83   -1.324815    .8966762  -2.287391   2.065844
+        lpop |         83   -.5601118    .8776521  -1.828751   2.587118
+-------------+---------------------------------------------------------
+      raccld |         83    .1204819    .4247694          0          2
+        racc |         83    .1204819    .4247694          0          2
+  rays_planc |         83           3    1.287842          0          6
+        mray |         83    .1566265    .5291947          0          3
+      rcarea |         83    3.807868    1.779908    1.51388   11.98023
+-------------+---------------------------------------------------------
+       rarea |         83    28.37489     8.80839   8.481629   54.12693
+       linch |         83     9.63575    .0983126   9.326128    9.78061
+       ginih |         83    .3200081    .0235058   .2844759   .3890241
+     lincome |         83    10.02585    .1491071   9.632992   10.27677
+
+. sum xpop2 xpop lcpop2 lcpop lpop raccld racc rays_planc mray rcarea rarea linch ginih lincome if year==90 & pop50>.1 & cpop50>.05
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       xpop2 |          0
+        xpop |          0
+      lcpop2 |          0
+       lcpop |          0
+        lpop |          0
+-------------+---------------------------------------------------------
+      raccld |          0
+        racc |          0
+  rays_planc |          0
+        mray |          0
+      rcarea |          0
+-------------+---------------------------------------------------------
+       rarea |          0
+       linch |          0
+       ginih |          0
+     lincome |          0
+
+. sum dxpop2 dxpop dlcpop2 dlcpop dlpop draccld dracc rays_planc dmray drcarea rarea Dlincomeh Dginih dlincome if year==50 & pop50>.1 & cpop50>.05
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      dxpop2 |          0
+       dxpop |          0
+     dlcpop2 |         83    .0017984    .1108628  -.3468087   .3581837
+      dlcpop |          0
+       dlpop |         83    .2373845    .1371813  -.0862314    .693102
+-------------+---------------------------------------------------------
+     draccld |         83    1.373494    1.462631          0          6
+       dracc |          0
+  rays_planc |         83           3    1.287842          0          6
+       dmray |          0
+     drcarea |          0
+-------------+---------------------------------------------------------
+       rarea |         83    28.37489     8.80839   8.481629   54.12693
+   Dlincomeh |         83     .306367    .0237928   .2604145   .3927604
+      Dginih |         83    .0239169    .0057493   .0045477   .0332697
+    dlincome |          0
+
+. 
+. ** Drop all of the missing values from the differences
+. keep if year==50
+(0 observations deleted)
+
+. 
+. ******************************************************
+. 
+. 
+. 
+. ********************  A ******************************
+. 
+. *** Sample 3
+. 
+. reg dlcpop2 draccld if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(1, 35)          =       0.01
+                                                Prob > F          =     0.9435
+                                                R-squared         =     0.0001
+                                                Root MSE          =     .11154
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0007902   .0110692    -0.07   0.943    -.0232619    .0216814
+       _cons |   .0028838   .0185155     0.16   0.877    -.0347048    .0404723
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, se replace 
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea if pop50>.1 & cpop50>.05, cluster(stfip) 
+
+Linear regression                               Number of obs     =         83
+                                                F(2, 35)          =      10.08
+                                                Prob > F          =     0.0004
+                                                R-squared         =     0.1207
+                                                Root MSE          =     .10525
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |   -.017123   .0077102    -2.22   0.033    -.0327755   -.0014704
+      rcarea |   .0254527   .0064028     3.98   0.000     .0124543     .038451
+       _cons |  -.0716036   .0279952    -2.56   0.015    -.1284369   -.0147704
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(3, 35)          =       9.69
+                                                Prob > F          =     0.0001
+                                                R-squared         =     0.1603
+                                                Root MSE          =      .1035
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0164195   .0073121    -2.25   0.031    -.0312638   -.0015751
+      rcarea |   .0309831   .0067449     4.59   0.000     .0172903     .044676
+   Dlincomeh |   1.025879   .7416242     1.38   0.175    -.4796982    2.531456
+       _cons |  -.4079246   .2375529    -1.72   0.095    -.8901827    .0743335
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh dlpop if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(4, 35)          =       8.66
+                                                Prob > F          =     0.0001
+                                                R-squared         =     0.3113
+                                                Root MSE          =     .09433
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0151004    .006656    -2.27   0.030    -.0286127   -.0015881
+      rcarea |   .0282217   .0063602     4.44   0.000     .0153098    .0411336
+   Dlincomeh |   1.102461   .6811308     1.62   0.115    -.2803086     2.48523
+       dlpop |   .3163554   .1041035     3.04   0.004      .105014    .5276968
+       _cons |  -.4977812   .2181679    -2.28   0.029    -.9406856   -.0548767
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh Dginih dlpop if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(5, 35)          =       6.88
+                                                Prob > F          =     0.0001
+                                                R-squared         =     0.3125
+                                                Root MSE          =     .09486
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0146159   .0069283    -2.11   0.042    -.0286811   -.0005506
+      rcarea |   .0276286   .0063732     4.34   0.000     .0146904    .0405669
+   Dlincomeh |   .5338916   1.226046     0.44   0.666    -1.955115    3.022898
+      Dginih |  -2.399693   4.989467    -0.48   0.634    -12.52885    7.729463
+       dlpop |   .3064013   .1082301     2.83   0.008     .0866826    .5261201
+       _cons |  -.2622415   .4954266    -0.53   0.600    -1.268011     .743528
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh dlpop lpop50 if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(5, 35)          =      30.61
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4509
+                                                Root MSE          =     .08478
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0035511   .0056239    -0.63   0.532    -.0149681     .007866
+      rcarea |   .0462362   .0050046     9.24   0.000     .0360763     .056396
+   Dlincomeh |   .1862337   .7575249     0.25   0.807    -1.351624    1.724091
+       dlpop |   .2310652   .0979375     2.36   0.024     .0322414    .4298889
+      lpop50 |  -.0794576   .0165734    -4.79   0.000    -.1131034   -.0458119
+       _cons |  -.3257977   .2233251    -1.46   0.154    -.7791717    .1275762
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. 
+. *** Sample 4
+. 
+. reg dlcpop2 draccld if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         52
+                                                F(1, 28)          =       0.06
+                                                Prob > F          =     0.8088
+                                                R-squared         =     0.0020
+                                                Root MSE          =     .10934
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |   .0033387   .0136667     0.24   0.809    -.0246563    .0313338
+       _cons |  -.0073418   .0221117    -0.33   0.742    -.0526355     .037952
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip) 
+
+Linear regression                               Number of obs     =         52
+                                                F(2, 28)          =      16.94
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1577
+                                                Root MSE          =     .10147
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |   -.011532   .0093947    -1.23   0.230    -.0307761     .007712
+      rcarea |    .040995   .0071418     5.74   0.000     .0263657    .0556243
+       _cons |  -.1295017   .0298203    -4.34   0.000    -.1905858   -.0684176
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         52
+                                                F(3, 28)          =      13.11
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2187
+                                                Root MSE          =     .09874
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0104339   .0084963    -1.23   0.230    -.0278377    .0069699
+      rcarea |   .0446886   .0072352     6.18   0.000      .029868    .0595093
+   Dlincomeh |   1.179545   .8037431     1.47   0.153     -.466848    2.825938
+       _cons |  -.5143934   .2506349    -2.05   0.050    -1.027796   -.0009911
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh dlpop if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         52
+                                                F(4, 28)          =      11.78
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2782
+                                                Root MSE          =     .09591
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0098512   .0084672    -1.16   0.254    -.0271955    .0074931
+      rcarea |   .0385795   .0093824     4.11   0.000     .0193605    .0577985
+   Dlincomeh |   1.127866   .7978796     1.41   0.169     -.506516    2.762248
+       dlpop |   .2110529   .1474409     1.43   0.163     -.090966    .5130719
+       _cons |  -.5253201   .2435523    -2.16   0.040    -1.024214   -.0264257
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh Dginih dlpop if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         52
+                                                F(5, 28)          =       8.44
+                                                Prob > F          =     0.0001
+                                                R-squared         =     0.2954
+                                                Root MSE          =     .09578
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0098679   .0083533    -1.18   0.247    -.0269789    .0072431
+      rcarea |     .04218   .0104338     4.04   0.000     .0208074    .0635526
+   Dlincomeh |   3.121097    1.41829     2.20   0.036     .2158622    6.026332
+      Dginih |   8.427273   5.795784     1.45   0.157    -3.444852     20.2994
+       dlpop |   .2317378   .1442554     1.61   0.119     -.063756    .5272316
+       _cons |  -1.355065   .5706815    -2.37   0.025    -2.524053   -.1860766
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. reg dlcpop2 draccld rcarea Dlincomeh dlpop lpop50 if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Linear regression                               Number of obs     =         52
+                                                F(5, 28)          =      12.58
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3754
+                                                Root MSE          =     .09018
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0018648   .0080294    -0.23   0.818    -.0183122    .0145826
+      rcarea |    .055811   .0099908     5.59   0.000     .0353458    .0762761
+   Dlincomeh |   .5182432   .7609581     0.68   0.501    -1.040509    2.076995
+       dlpop |   .1515883   .1368577     1.11   0.277    -.1287521    .4319286
+      lpop50 |  -.0800105   .0250146    -3.20   0.003    -.1312506   -.0287703
+       _cons |  -.4528968   .2253168    -2.01   0.054    -.9144372    .0086437
+------------------------------------------------------------------------------
+
+. outreg2 using outputA.tex, tex(frag) se append
+outputA.tex
+dir : seeout
+
+. 
+. 
+. ********************  C ******************************
+. ** (Keep samples 1 and 2 for reference in the text)
+. 
+. *** Sample 1
+. 
+. ivreg dlcpop2 (draccld=rays_planc), cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(1, 35)          =       0.29
+                                                Prob > F          =     0.5927
+                                                R-squared         =          .
+                                                Root MSE          =     .11233
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0098193   .0181869    -0.54   0.593    -.0467407    .0271021
+       _cons |   .0152852   .0317061     0.48   0.633    -.0490817     .079652
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea, cluster(stfip) 
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(2, 35)          =       3.98
+                                                Prob > F          =     0.0277
+                                                R-squared         =     0.0456
+                                                Root MSE          =     .10965
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0415589   .0273313    -1.52   0.137    -.0970443    .0139265
+      rcarea |    .036041   .0139439     2.58   0.014     .0077334    .0643486
+       _cons |  -.0783602   .0324615    -2.41   0.021    -.1442606   -.0124598
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea Dlincomeh, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(3, 35)          =       3.27
+                                                Prob > F          =     0.0326
+                                                R-squared         =     0.0807
+                                                Root MSE          =     .10829
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0416054    .027779    -1.50   0.143    -.0979997    .0147889
+      rcarea |   .0415692    .014751     2.82   0.008     .0116232    .0715152
+   Dlincomeh |    .968341   .7091205     1.37   0.181    -.4712502    2.407932
+       _cons |  -.3960146   .2302601    -1.72   0.094    -.8634674    .0714382
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea Dlincomeh rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(4, 35)          =       5.29
+                                                Prob > F          =     0.0019
+                                                R-squared         =     0.2539
+                                                Root MSE          =     .09818
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0365101   .0237809    -1.54   0.134    -.0847878    .0117677
+       dlpop |   .3089447   .1116983     2.77   0.009     .0821852    .5357042
+      rcarea |   .0372722   .0130515     2.86   0.007     .0107762    .0637683
+   Dlincomeh |   1.051826   .6588844     1.60   0.119    -.2857801    2.389433
+       _cons |  -.4855666   .2152793    -2.26   0.030    -.9226069   -.0485264
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh Dginih, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(5, 35)          =       4.19
+                                                Prob > F          =     0.0043
+                                                R-squared         =     0.2540
+                                                Root MSE          =     .09881
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0364892    .023816    -1.53   0.134    -.0848383    .0118598
+       dlpop |   .3098908   .1124893     2.75   0.009     .0815255    .5382561
+      rcarea |   .0372994   .0132257     2.82   0.008     .0104497    .0641491
+   Dlincomeh |   1.104722   1.205488     0.92   0.366    -1.342549    3.551993
+      Dginih |   .2225941   5.014737     0.04   0.965    -9.957863    10.40305
+       _cons |  -.5074527   .4857537    -1.04   0.303    -1.493585    .4786797
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh Dginih rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh lpop50, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(5, 35)          =      26.61
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4473
+                                                Root MSE          =     .08505
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0092217   .0304261    -0.30   0.764      -.07099    .0525466
+       dlpop |   .2337909   .0959004     2.44   0.020     .0391028     .428479
+      rcarea |    .047431    .008929     5.31   0.000     .0293042    .0655578
+   Dlincomeh |   .2223685   .7884404     0.28   0.780    -1.378251    1.822988
+      lpop50 |  -.0752853    .025042    -3.01   0.005    -.1261233   -.0244472
+       _cons |  -.3319395   .2256105    -1.47   0.150    -.7899531    .1260742
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh lpop50 rays_planc
+
+. 
+. *** Sample 2 
+. 
+. ivreg dlcpop2 (draccld=rays_planc) if msa50==1, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(1, 35)          =       0.29
+                                                Prob > F          =     0.5927
+                                                R-squared         =          .
+                                                Root MSE          =     .11233
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0098193   .0181869    -0.54   0.593    -.0467407    .0271021
+       _cons |   .0152852   .0317061     0.48   0.633    -.0490817     .079652
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea if msa50==1, cluster(stfip) 
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(2, 35)          =       3.98
+                                                Prob > F          =     0.0277
+                                                R-squared         =     0.0456
+                                                Root MSE          =     .10965
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0415589   .0273313    -1.52   0.137    -.0970443    .0139265
+      rcarea |    .036041   .0139439     2.58   0.014     .0077334    .0643486
+       _cons |  -.0783602   .0324615    -2.41   0.021    -.1442606   -.0124598
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea Dlincomeh if msa50==1, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(3, 35)          =       3.27
+                                                Prob > F          =     0.0326
+                                                R-squared         =     0.0807
+                                                Root MSE          =     .10829
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0416054    .027779    -1.50   0.143    -.0979997    .0147889
+      rcarea |   .0415692    .014751     2.82   0.008     .0116232    .0715152
+   Dlincomeh |    .968341   .7091205     1.37   0.181    -.4712502    2.407932
+       _cons |  -.3960146   .2302601    -1.72   0.094    -.8634674    .0714382
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea Dlincomeh rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh if msa50==1, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(4, 35)          =       5.29
+                                                Prob > F          =     0.0019
+                                                R-squared         =     0.2539
+                                                Root MSE          =     .09818
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0365101   .0237809    -1.54   0.134    -.0847878    .0117677
+       dlpop |   .3089447   .1116983     2.77   0.009     .0821852    .5357042
+      rcarea |   .0372722   .0130515     2.86   0.007     .0107762    .0637683
+   Dlincomeh |   1.051826   .6588844     1.60   0.119    -.2857801    2.389433
+       _cons |  -.4855666   .2152793    -2.26   0.030    -.9226069   -.0485264
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh Dginih if msa50==1, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(5, 35)          =       4.19
+                                                Prob > F          =     0.0043
+                                                R-squared         =     0.2540
+                                                Root MSE          =     .09881
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0364892    .023816    -1.53   0.134    -.0848383    .0118598
+       dlpop |   .3098908   .1124893     2.75   0.009     .0815255    .5382561
+      rcarea |   .0372994   .0132257     2.82   0.008     .0104497    .0641491
+   Dlincomeh |   1.104722   1.205488     0.92   0.366    -1.342549    3.551993
+      Dginih |   .2225941   5.014737     0.04   0.965    -9.957863    10.40305
+       _cons |  -.5074527   .4857537    -1.04   0.303    -1.493585    .4786797
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh Dginih rays_planc
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh lpop50 if msa50==1, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(5, 35)          =      26.61
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4473
+                                                Root MSE          =     .08505
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0092217   .0304261    -0.30   0.764      -.07099    .0525466
+       dlpop |   .2337909   .0959004     2.44   0.020     .0391028     .428479
+      rcarea |    .047431    .008929     5.31   0.000     .0293042    .0655578
+   Dlincomeh |   .2223685   .7884404     0.28   0.780    -1.378251    1.822988
+      lpop50 |  -.0752853    .025042    -3.01   0.005    -.1261233   -.0244472
+       _cons |  -.3319395   .2256105    -1.47   0.150    -.7899531    .1260742
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh lpop50 rays_planc
+
+. 
+. *** Sample 3
+. 
+. ivreg dlcpop2 (draccld=rays_planc) if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(1, 35)          =       0.29
+                                                Prob > F          =     0.5927
+                                                R-squared         =          .
+                                                Root MSE          =     .11233
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0098193   .0181869    -0.54   0.593    -.0467407    .0271021
+       _cons |   .0152852   .0317061     0.48   0.633    -.0490817     .079652
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rays_planc
+
+. outreg2 using outputC.tex, se replace 
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea if pop50>.1 & cpop50>.05, cluster(stfip) 
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(2, 35)          =       3.98
+                                                Prob > F          =     0.0277
+                                                R-squared         =     0.0456
+                                                Root MSE          =     .10965
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0415589   .0273313    -1.52   0.137    -.0970443    .0139265
+      rcarea |    .036041   .0139439     2.58   0.014     .0077334    .0643486
+       _cons |  -.0783602   .0324615    -2.41   0.021    -.1442606   -.0124598
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea Dlincomeh if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(3, 35)          =       3.27
+                                                Prob > F          =     0.0326
+                                                R-squared         =     0.0807
+                                                Root MSE          =     .10829
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0416054    .027779    -1.50   0.143    -.0979997    .0147889
+      rcarea |   .0415692    .014751     2.82   0.008     .0116232    .0715152
+   Dlincomeh |    .968341   .7091205     1.37   0.181    -.4712502    2.407932
+       _cons |  -.3960146   .2302601    -1.72   0.094    -.8634674    .0714382
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea Dlincomeh rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(4, 35)          =       5.29
+                                                Prob > F          =     0.0019
+                                                R-squared         =     0.2539
+                                                Root MSE          =     .09818
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0365101   .0237809    -1.54   0.134    -.0847878    .0117677
+       dlpop |   .3089447   .1116983     2.77   0.009     .0821852    .5357042
+      rcarea |   .0372722   .0130515     2.86   0.007     .0107762    .0637683
+   Dlincomeh |   1.051826   .6588844     1.60   0.119    -.2857801    2.389433
+       _cons |  -.4855666   .2152793    -2.26   0.030    -.9226069   -.0485264
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh Dginih if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(5, 35)          =       4.19
+                                                Prob > F          =     0.0043
+                                                R-squared         =     0.2540
+                                                Root MSE          =     .09881
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0364892    .023816    -1.53   0.134    -.0848383    .0118598
+       dlpop |   .3098908   .1124893     2.75   0.009     .0815255    .5382561
+      rcarea |   .0372994   .0132257     2.82   0.008     .0104497    .0641491
+   Dlincomeh |   1.104722   1.205488     0.92   0.366    -1.342549    3.551993
+      Dginih |   .2225941   5.014737     0.04   0.965    -9.957863    10.40305
+       _cons |  -.5074527   .4857537    -1.04   0.303    -1.493585    .4786797
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh Dginih rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh lpop50 if pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(5, 35)          =      26.61
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4473
+                                                Root MSE          =     .08505
+
+                                 (Std. err. adjusted for 36 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0092217   .0304261    -0.30   0.764      -.07099    .0525466
+       dlpop |   .2337909   .0959004     2.44   0.020     .0391028     .428479
+      rcarea |    .047431    .008929     5.31   0.000     .0293042    .0655578
+   Dlincomeh |   .2223685   .7884404     0.28   0.780    -1.378251    1.822988
+      lpop50 |  -.0752853    .025042    -3.01   0.005    -.1261233   -.0244472
+       _cons |  -.3319395   .2256105    -1.47   0.150    -.7899531    .1260742
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh lpop50 rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. 
+. *** Sample 4 
+. 
+. ivreg dlcpop2 (draccld=rays_planc) if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         52
+                                                F(1, 28)          =       0.12
+                                                Prob > F          =     0.7268
+                                                R-squared         =          .
+                                                Root MSE          =     .10977
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |   .0099749   .0282633     0.35   0.727    -.0479198    .0678696
+       _cons |  -.0155093   .0411053    -0.38   0.709    -.0997097     .068691
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip) 
+
+Instrumental variables 2SLS regression          Number of obs     =         52
+                                                F(2, 28)          =       5.62
+                                                Prob > F          =     0.0089
+                                                R-squared         =     0.0228
+                                                Root MSE          =     .10929
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0425005   .0487494    -0.87   0.391    -.1423591    .0573582
+      rcarea |   .0580413   .0270669     2.14   0.041     .0025972    .1134855
+       _cons |  -.1497931   .0443202    -3.38   0.002    -.2405789   -.0590073
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) rcarea Dlincomeh if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         52
+                                                F(3, 28)          =       5.21
+                                                Prob > F          =     0.0055
+                                                R-squared         =     0.1453
+                                                Root MSE          =     .10327
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |   -.033315   .0452591    -0.74   0.468     -.126024    .0593941
+      rcarea |   .0570351    .024645     2.31   0.028     .0065521    .1075181
+   Dlincomeh |   1.111424   .7641022     1.45   0.157    -.4537684    2.676616
+       _cons |  -.5071159   .2527105    -2.01   0.055     -1.02477    .0105381
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  rcarea Dlincomeh rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         52
+                                                F(4, 28)          =       5.69
+                                                Prob > F          =     0.0018
+                                                R-squared         =     0.1803
+                                                Root MSE          =     .10221
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0362941   .0419147    -0.87   0.394    -.1221524    .0495641
+       dlpop |   .2034015   .1619155     1.26   0.219    -.1282673    .5350703
+      rcarea |    .053058   .0253156     2.10   0.045     .0012013    .1049148
+   Dlincomeh |   1.051077    .763624     1.38   0.180    -.5131358     2.61529
+       _cons |  -.5165203   .2458303    -2.10   0.045    -1.020081   -.0129596
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh Dginih if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         52
+                                                F(5, 28)          =       8.60
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2514
+                                                Root MSE          =     .09873
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |  -.0276036   .0438122    -0.63   0.534    -.1173489    .0621418
+       dlpop |   .2266556    .150938     1.50   0.144    -.0825269    .5358381
+      rcarea |   .0518996   .0240133     2.16   0.039     .0027105    .1010886
+   Dlincomeh |   3.074385   1.443867     2.13   0.042     .1167573    6.032013
+      Dginih |   8.447532    5.90436     1.43   0.164    -3.647001    20.54207
+       _cons |  -1.351157   .5691135    -2.37   0.025    -2.516933   -.1853809
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh Dginih rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld=rays_planc) dlpop rcarea Dlincomeh lpop50 if dis_borcoa>20 & pop50>.1 & cpop50>.05, cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         52
+                                                F(5, 28)          =      16.97
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3729
+                                                Root MSE          =     .09036
+
+                                 (Std. err. adjusted for 29 clusters in stfip)
+------------------------------------------------------------------------------
+             |               Robust
+     dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     draccld |   .0025325   .0590602     0.04   0.966    -.1184468    .1235119
+       dlpop |   .1499952   .1300272     1.15   0.258    -.1163535    .4163439
+      rcarea |   .0544054   .0191604     2.84   0.008     .0151572    .0936536
+   Dlincomeh |   .5016593   .7929075     0.63   0.532    -1.122538    2.125857
+      lpop50 |  -.0837218   .0492436    -1.70   0.100    -.1845927    .0171491
+       _cons |  -.4508775   .2256313    -2.00   0.055    -.9130623    .0113074
+------------------------------------------------------------------------------
+Endogenous: draccld
+Exogenous:  dlpop rcarea Dlincomeh lpop50 rays_planc
+
+. outreg2 using outputC.tex, tex(frag) se append
+outputC.tex
+dir : seeout
+
+. 
+. *** Buera Regressions
+. reg dlcpop2 draccld nw_50 draccld_nw_50, cluster(stfip)
+
+Linear regression                               Number of obs     =         83
+                                                F(3, 35)          =       4.54
+                                                Prob > F          =     0.0086
+                                                R-squared         =     0.0938
+                                                Root MSE          =     .10752
+
+                                  (Std. err. adjusted for 36 clusters in stfip)
+-------------------------------------------------------------------------------
+              |               Robust
+      dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+      draccld |   .0219653   .0149573     1.47   0.151    -.0083996    .0523302
+        nw_50 |   .0038241   .0010776     3.55   0.001     .0016365    .0060118
+draccld_nw_50 |  -.0017019   .0006694    -2.54   0.016     -.003061   -.0003429
+        _cons |   -.050089   .0209973    -2.39   0.023    -.0927157   -.0074623
+-------------------------------------------------------------------------------
+
+. outreg2 using outputBuera.tex, tex(frag) se replace
+outputBuera.tex
+dir : seeout
+
+. ivreg dlcpop2 (draccld draccld_nw_50=rays_planc rays_planc_nw_50), cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(2, 35)          =       1.11
+                                                Prob > F          =     0.3416
+                                                R-squared         =          .
+                                                Root MSE          =     .11762
+
+                                  (Std. err. adjusted for 36 clusters in stfip)
+-------------------------------------------------------------------------------
+              |               Robust
+      dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+      draccld |  -.0303684   .0239297    -1.27   0.213    -.0789484    .0182115
+draccld_nw_50 |   .0010366   .0007535     1.38   0.178    -.0004931    .0025663
+        _cons |   .0263883   .0333491     0.79   0.434     -.041314    .0940906
+-------------------------------------------------------------------------------
+Endogenous: draccld draccld_nw_50
+Exogenous:  rays_planc rays_planc_nw_50
+
+. outreg2 using outputBuera.tex, tex(frag) se append
+outputBuera.tex
+dir : seeout
+
+. ivreg dlcpop2 nw_50 (draccld draccld_nw_50=rays_planc rays_planc_nw_50), cluster(stfip)
+
+Instrumental variables 2SLS regression          Number of obs     =         83
+                                                F(3, 35)          =       6.92
+                                                Prob > F          =     0.0009
+                                                R-squared         =     0.0808
+                                                Root MSE          =     .10829
+
+                                  (Std. err. adjusted for 36 clusters in stfip)
+-------------------------------------------------------------------------------
+              |               Robust
+      dlcpop2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+      draccld |   .0130287   .0352324     0.37   0.714    -.0584969    .0845543
+draccld_nw_50 |  -.0016791   .0012964    -1.30   0.204    -.0043109    .0009527
+        nw_50 |   .0037035   .0017595     2.10   0.043     .0001314    .0072755
+        _cons |  -.0366191    .053404    -0.69   0.497     -.145035    .0717969
+-------------------------------------------------------------------------------
+Endogenous: draccld draccld_nw_50
+Exogenous:  nw_50 rays_planc rays_planc_nw_50
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Suburbanization\Data\Modified\estimation\table4e\table4e.log
+  log type:  text
+ closed on:  17 May 2024, 09:19:07
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

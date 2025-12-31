@@ -1,0 +1,40 @@
+----------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research
+> \Suburbanization\Data\Modified\estimation\msa_list\industry_shares\clean_ind_shr
+> _50.log
+  log type:  text
+ opened on:  25 Oct 2023, 05:01:03
+
+. import delimited "edited_industry_shares_1950.csv", varnames(1)
+(encoding automatically selected: UTF-8)
+(3 vars, 151 obs)
+
+. 
+. gen cc_man_shr_50 = cc_man/cc_emp*100
+(65 missing values generated)
+
+. keep msa_name cc_man_shr_50
+
+. drop if missing(cc_man_shr_50)
+(65 observations deleted)
+
+. sort msa_name
+
+. 
+. label variable msa_name "MSA/Center City (CC) name (1990 reference)"
+
+. label variable cc_man_shr_50 "CC manufacturing share of employment (1950)"
+
+. 
+. save "clean_ind_shr_50.dta", replace
+file clean_ind_shr_50.dta saved
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research
+> \Suburbanization\Data\Modified\estimation\msa_list\industry_shares\clean_ind_shr
+> _50.log
+  log type:  text
+ closed on:  25 Oct 2023, 05:01:04
+----------------------------------------------------------------------------------

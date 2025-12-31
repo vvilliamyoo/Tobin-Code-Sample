@@ -1,0 +1,21 @@
+		(1)	(2)	(3)	(4)
+		BP	White	Park	Glejser
+VARIABLES	LABELS	p=0.763	p=0.468	p=0.314	p=0.639
+					
+cc_man_50	CC Mfg. % Emp. '50	-0.00	-0.00		-0.00
+		(0.001)	(0.001)		(0.001)
+draccld_nw_50	Ray-NW '50	-0.00**	-0.00**		-0.00
+		(0.000)	(0.000)		(0.000)
+rcarea	CC Radius	0.02***	0.02***		-0.00
+		(0.006)	(0.006)		(0.004)
+dlpop	Log Change MSA Pop.	0.17**	0.17**		0.03
+		(0.082)	(0.082)		(0.048)
+ln_yhat	Log Fitted Values			-0.26	
+				(0.257)	
+Constant	Constant	-0.05	-0.05	-6.93***	0.08***
+		(0.042)	(0.042)	(1.011)	(0.025)
+					
+Observations		81	81	42	81
+R-squared		0.219	0.219	0.025	0.032
+Standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					

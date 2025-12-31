@@ -1,0 +1,173 @@
+-------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Su
+> burbanization\Data\Modified\estimation\table4e\variables\table4e_vars.log
+  log type:  text
+ opened on:  14 Mar 2024, 01:36:24
+
+. 
+. *************************
+. ***** msa-final.dta *****
+. *************************
+. use ../../../data/msa-final.dta
+
+. rename name msa_name
+
+. rename year year_1900s
+
+. * Select 1990 MSA names
+. gen msa_name_temp = msa_name if year_1900s[_n] == 90
+(959 missing values generated)
+
+. replace msa_name = subinstr(msa_name_temp, " city", "", .)
+(1,197 real changes made)
+
+. * Calculate variables
+. replace pop=pop/1000000
+variable pop was long now double
+(1,199 real changes made)
+
+. replace cpop=cpop/1000000
+(1,199 real changes made)
+
+. replace cpop2=cpop2/1000000
+(1,124 real changes made)
+
+. gen lcpop2 = log(cpop2)
+(75 missing values generated)
+
+. gen lpop = log(pop)
+
+. by msa: gen dlcpop2 = lcpop2[_n+1]-lcpop2
+(375 missing values generated)
+
+. by msa: gen dlpop = lpop[_n+1]-lpop
+(240 missing values generated)
+
+. by msa: gen draccld = raccld[_n+1]-raccld
+(240 missing values generated)
+
+. by msa: gen Dlincomeh = linch[_n+1]-linch
+(240 missing values generated)
+
+. by msa: gen Dginih = ginih[_n+1]-ginih
+(240 missing values generated)
+
+. gen rcarea = sqrt(carea/_pi)
+
+. by msa: gen dcpop2 = cpop2[_n+1]-cpop2
+(375 missing values generated)
+
+. by msa: gen dpop = pop[_n+1]-pop
+(240 missing values generated)
+
+. *
+. drop if year_1900s != 50 & year_1900s != 90
+(719 observations deleted)
+
+. replace msa_name = msa_name[_n+1] if missing(msa_name)
+(240 real changes made)
+
+. drop if year_1900s == 90 | missing(dlcpop2)
+(296 observations deleted)
+
+. * keep msa_name dlcpop2 draccld rcarea dlpop dcpop2 dpop
+. save "temp.dta", replace
+(file temp.dta not found)
+file temp.dta saved
+
+. 
+. **************************
+. ***** ind_shr_50.dta *****
+. **************************
+. use ../../msa_list/industry_shares/clean_ind_shr_50.dta, clear
+
+. merge m:1 msa_name using "temp.dta"
+(variable msa_name was str18, now str39 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           104
+        from master                         3  (_merge==1)
+        from using                        101  (_merge==2)
+
+    Matched                                83  (_merge==3)
+    -----------------------------------------
+
+. rename cc_man_shr_50 cc_man_50
+
+. drop if _merge != 3
+(104 observations deleted)
+
+. drop _merge
+
+. save "temp.dta", replace
+file temp.dta saved
+
+. 
+. **************************
+. ***** clean_race.dta *****
+. **************************
+. use ../../msa_list/census_race/clean_race.dta, clear
+
+. merge m:1 msa_name using "temp.dta"
+(variable msa_name was str18, now str39 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            63
+        from master                        63  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                                83  (_merge==3)
+    -----------------------------------------
+
+. rename pct_cc_nw_1950 nw_50
+
+. drop if _merge != 3
+(63 observations deleted)
+
+. gen draccld_nw_50 = draccld * nw_50 // OLS and instrumental variable
+
+. gen rays_planc_nw_50 = rays_planc * nw_50 // Instrumental variable
+
+. * keep msa_name dlcpop2 draccld_nw_50 draccld nw_50 cc_man_50 rcarea dlpop dcpop2 d
+> pop // ray_plan_nw_50
+. 
+. ******************
+. ***** Labels *****
+. ******************
+. label variable dlcpop2 "Log CC Pop., 1950"
+
+. label variable cc_man_50 "CC Mfg. % Emp., 1950"
+
+. label variable rcarea "CC Radius"
+
+. label variable dlpop "Log Change MSA Pop."
+
+. label variable draccld_nw_50 "RayxNon-White, 1950"
+
+. label variable draccld "Change in # of Rays"
+
+. label variable nw_50 "Non-White Pop. %, 1950"
+
+. 
+. ********************
+. ***** Finalize *****
+. ********************
+. drop msa_name_temp
+
+. drop _merge
+
+. save "table4e_vars.dta", replace
+file table4e_vars.dta saved
+
+. erase "temp.dta"
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Su
+> burbanization\Data\Modified\estimation\table4e\variables\table4e_vars.log
+  log type:  text
+ closed on:  14 Mar 2024, 01:36:24
+-------------------------------------------------------------------------------------

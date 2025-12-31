@@ -1,0 +1,19 @@
+		(1)	(2)	(3)	(4)
+		CC Mfg.			Log Change
+VARIABLES	LABELS	% Emp. '50	Ray-NW '50	CC Radius	MSA Pop.
+					
+draccld_nw_50	Ray-NW '50	-0.0		0.0***	-0.0
+		(0.057)		(0.007)	(0.001)
+rcarea	CC Radius	-0.1	6.0***		0.0
+		(0.820)	(1.491)		(0.008)
+dlpop	Log Change MSA Pop.	-36.3***	-7.0	0.7	
+		(10.207)	(21.991)	(1.528)	
+cc_man_50	CC Mfg. % Emp. '50		-0.1	-0.0	-0.0***
+			(0.227)	(0.016)	(0.001)
+Constant	Constant	35.7***	-1.3	3.2***	0.3***
+		(3.843)	(11.186)	(0.688)	(0.045)
+					
+Observations		81	81	81	81
+R-squared		0.146	0.175	0.176	0.145
+Standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					

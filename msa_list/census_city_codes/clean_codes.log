@@ -1,0 +1,78 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Suburbanization\Literature Review\Baum-Snow - Did Highways Cause Suburbanization\Data\Modifie
+> d\estimation\MSA List\IPUMS City Codes Data\clean_codes.log
+  log type:  text
+ opened on:  24 Jul 2023, 15:30:24
+
+. 
+. 
+. **********************
+. ***** Clean data *****
+. **********************
+. import delimited "../IPUMS City Codes Data/raw_codes.csv"
+(encoding automatically selected: UTF-8)
+(19 vars, 1,257 obs)
+
+. 
+. * Remove all variables except city name and observations from 1940, 1950
+. keep v2 v10 v11
+
+. 
+. * Remove repeated headers
+. drop if _n == 1 | v2[_n] == "Label" | v2[_n] == ""
+(96 observations deleted)
+
+. 
+. *Recode observations for 1940, 1950
+. replace v10 = "1" if v10 == "X"
+(98 real changes made)
+
+. replace v10 = "0" if v10 == "·"
+(1,058 real changes made)
+
+. replace v11 = "1" if v11 == "X"
+(98 real changes made)
+
+. replace v11 = "0" if v11 == "·"
+(1,058 real changes made)
+
+. 
+. *Destring observations (necessary due to recode technique)
+. destring v10 v11, replace
+v10: all characters numeric; replaced as byte
+(5 missing values generated)
+v11: all characters numeric; replaced as byte
+(5 missing values generated)
+
+. 
+. * Rename all variables
+. rename v2 msa_name
+
+. rename v10 yr1950
+
+. rename v11 yr1940
+
+. 
+. * Label variables 
+. label variable msa_name "Name of MSA/CC; use of 'msa' intended for application in other .do files"
+
+. label variable yr1950 "Codes exist for 1950"
+
+. label variable yr1940 "Codes exist for 1940"
+
+. 
+. 
+. ****************************
+. ***** Finalize dataset *****
+. ****************************
+. save "clean_codes.dta", replace
+file clean_codes.dta saved
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\willi\OneDrive - Washington University in St. Louis\Research\Suburbanization\Literature Review\Baum-Snow - Did Highways Cause Suburbanization\Data\Modifie
+> d\estimation\MSA List\IPUMS City Codes Data\clean_codes.log
+  log type:  text
+ closed on:  24 Jul 2023, 15:30:25
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,16 @@
+		(1)	(2)
+VARIABLES	LABELS	OLS	IV
+			
+draccld	Change in # of Rays	0.022	-0.030
+		(0.015)	(0.023)
+nw_50	Non-White Pop. %, 1950	0.004***	
+		(0.001)	
+draccld_nw_50	Ray*Non-White, 1950	-0.002**	0.001
+		(0.001)	(0.001)
+Constant	Constant	-0.050**	0.026
+		(0.021)	(0.032)
+			
+Observations		83	83
+R-squared		0.094	
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

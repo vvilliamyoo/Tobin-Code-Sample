@@ -1,0 +1,16 @@
+	(1)	(2)
+VARIABLES	dlcpop2	dlcpop2
+		
+draccld	0.0220	-0.0304
+	(0.0150)	(0.0239)
+nw_50	0.00382***	
+	(0.00108)	
+draccld_nw_50	-0.00170**	0.00104
+	(0.000669)	(0.000754)
+Constant	-0.0501**	0.0264
+	(0.0210)	(0.0333)
+		
+Observations	83	83
+R-squared	0.094	
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		
